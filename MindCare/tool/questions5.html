@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Mental Health Assessment - Page 5</title>
+</head>
+<body>
+ 
+    <h2> Mental Health Assessment (DASS-21)</h2>
+    <div class="question-container">
+        <h3>Page 5 of 7</h3>
+        <ul>
+            <li>
+                <p>13. I was aware of the action of my heart in the absence of physical
+                    exertion (e.g. sense of heart rate increase, heart missing a beat) .</p>
+                <label><input type="radio" name="question13" value="0"> Not at all</label>
+                <label><input type="radio" name="question13" value="1"> A little</label>
+                <label><input type="radio" name="question13" value="2"> Moderately</label>
+                <label><input type="radio" name="question13" value="3"> Yes, definitely</label>
+            </li>
+            <li>
+                <p>14. I felt scared without any good reason.</p>
+                <label><input type="radio" name="question14" value="0"> Not at all</label>
+                <label><input type="radio" name="question14" value="1"> A little</label>
+                <label><input type="radio" name="question14" value="2"> Moderately</label>
+                <label><input type="radio" name="question14" value="3"> Yes, definitely</label>
+            </li>
+            <li>
+                <p>15. I found it hard to wind down.</p>
+                <label><input type="radio" name="question15" value="0"> Not at all</label>
+                <label><input type="radio" name="question15" value="1"> A little</label>
+                <label><input type="radio" name="question15" value="2"> Moderately</label>
+                <label><input type="radio" name="question15" value="3"> Yes, definitely</label>
+            </li>
+        </ul>
+        <br>
+        <button onclick="nextPage()">Next</button>
+    </div>
+
+    <script>
+        function nextPage() {
+            // Collect and store responses for this page
+            const question13Response = parseInt(document.querySelector('input[name="question13"]:checked').value);
+            const question14Response = parseInt(document.querySelector('input[name="question14"]:checked').value);
+            const question15Response = parseInt(document.querySelector('input[name="question15"]:checked').value);
+
+            // Retrieve scores from the previous pages
+            const anxietyScore = parseInt(localStorage.getItem('anxietyScore'));
+            const stressScore = parseInt(localStorage.getItem('stressScore'));
+
+            // Update scores with responses from this page
+            const updatedAnxietyScore = anxietyScore + question13Response + question14Response;
+            const updatedStressScore = stressScore + question15Response;
+
+            // Store the updated scores in local storage
+            localStorage.setItem('anxietyScore', updatedAnxietyScore);
+            localStorage.setItem('stressScore', updatedStressScore);
+
+            // Navigate to the next page
+            window.location.href = 'questions6.html';
+        }
+    </script>
+</body>
+</html>
+

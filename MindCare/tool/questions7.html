@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Mental Health Assessment - Final Page</title>
+</head>
+<body>
+ 
+    <h2> Mental Health Assessment (DASS-21)</h2>
+    <div class="question-container">
+        <h3>Final Page</h3>
+        <ul>
+            <li>
+                <p>19. I found it difficult to relax.</p>
+                <label><input type="radio" name="question19" value="0"> Not at all</label>
+                <label><input type="radio" name="question19" value="1"> A little</label>
+                <label><input type="radio" name="question19" value="2"> Moderately</label>
+                <label><input type="radio" name="question19" value="3"> Yes, definitely</label>
+            </li>
+            <li>
+                <p>20. I was intolerant of anything that kept me from getting on with what I
+                    was doing.</p>
+                <label><input type="radio" name="question20" value="0"> Not at all</label>
+                <label><input type="radio" name="question20" value="1"> A little</label>
+                <label><input type="radio" name="question20" value="2"> Moderately</label>
+                <label><input type="radio" name="question20" value="3"> Yes, definitely</label>
+            </li>
+            <li>
+                <p>21. I felt that I was rather touchy .</p>
+                <label><input type="radio" name="question21" value="0"> Not at all</label>
+                <label><input type="radio" name="question21" value="1"> A little</label>
+                <label><input type="radio" name="question21" value="2"> Moderately</label>
+                <label><input type="radio" name="question21" value="3"> Yes, definitely</label>
+            </li>
+        </ul>
+        <p>This is the final page. Please click the button below to calculate your scores.</p>
+        <br>
+        <button onclick="calculateAndNavigateToResult()">Calculate</button>
+    </div>
+
+    <script>
+        function calculateAndNavigateToResult() {
+            // Calculate scores for this page
+            const question19Response = parseInt(document.querySelector('input[name="question19"]:checked').value);
+            const question20Response = parseInt(document.querySelector('input[name="question20"]:checked').value);
+            const question21Response = parseInt(document.querySelector('input[name="question21"]:checked').value);
+
+            // Calculate scores for the previous pages
+            const depressionScore = parseInt(localStorage.getItem('depressionScore'));
+            const anxietyScore = parseInt(localStorage.getItem('anxietyScore'));
+            const stressScore = parseInt(localStorage.getItem('stressScore'));
+
+            // Update scores with responses from this page
+            const updatedStressScore = stressScore + question19Response + question20Response + question21Response;
+
+            // Store the updated scores in local storage
+            localStorage.setItem('depressionScore', depressionScore);
+            localStorage.setItem('anxietyScore', anxietyScore);
+            localStorage.setItem('stressScore', updatedStressScore);
+
+            // Display the calculated scores
+            alert(`Depression Score: ${depressionScore}\nAnxiety Score: ${anxietyScore}\nStress Score: ${updatedStressScore}`);
+
+            // Navigate to the result page
+            window.location.href = 'result.html';
+        }
+    </script>
+</body>
+</html>

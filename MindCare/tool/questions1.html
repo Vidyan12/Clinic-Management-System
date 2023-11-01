@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Mental Health Assessment - Page 1</title>
+</head>
+<body>
+ <div class="assessment-container">
+    <h2> Mental Health Assessment(DASS-21)</h2>
+    <div class="question-container">
+        <h3>Page 1 of 7</h3>
+        <ul>
+                <li>
+                    <p>1. I found it difficult to work up the initiative to do things.</p>
+                    <label><input type="radio" name="question1" value="0"> Not at all</label>
+                    <label><input type="radio" name="question1" value="1"> A little</label>
+                    <label><input type="radio" name="question1" value="2"> Moderately</label>
+                    <label><input type="radio" name="question1" value="3"> Yes, definitely</label>
+                </li>
+                <li>
+                    <p>2. I felt that i had nothing to look forward.</p>
+                    <label><input type="radio" name="question2" value="0"> Not at all</label>
+                    <label><input type="radio" name="question2" value="1"> A little</label>
+                    <label><input type="radio" name="question2" value="2"> Moderately</label>
+                    <label><input type="radio" name="question2" value="3"> Yes, definitely</label>
+                </li>
+                <li>
+                    <p>3. I couldn't seem to experience any positive feeling at all.</p>
+                    <label><input type="radio" name="question3" value="0"> Not at all</label>
+                    <label><input type="radio" name="question3" value="1"> A little</label>
+                    <label><input type="radio" name="question3" value="2"> Moderately</label>
+                    <label><input type="radio" name="question3" value="3"> Yes, definitely</label>
+                </li>
+         </ul>
+     <br>
+        <button onclick="nextPage()">Next</button>
+    </div>
+ </div>
+      <script>
+         function nextPage() {
+    // Collect and store responses for this page
+const question1Response = parseInt(document.querySelector('input[name="question1"]:checked').value);
+const question2Response = parseInt(document.querySelector('input[name="question2"]:checked').value);
+const question3Response = parseInt(document.querySelector('input[name="question3"]:checked').value);
+
+// Calculate scores for this page
+let depressionScore = question1Response + question2Response + question3Response;
+let anxietyScore = 0; // Initialize as 0 for this page
+let stressScore = 0; // Initialize as 0 for this page
+
+// Store the calculated scores in local storage
+localStorage.setItem('depressionScore', depressionScore);
+localStorage.setItem('anxietyScore', anxietyScore);
+localStorage.setItem('stressScore', stressScore);
+    // Navigate to the next page
+    window.location.href = 'questions2.html';
+}
+    </script>
+    
+</body>
+</html>

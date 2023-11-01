@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Mental Health Assessment - Page 6</title>
+</head>
+<body>
+ 
+    <h2> Mental Health Assessment (DASS-21)</h2>
+    <div class="question-container">
+        <h3>Page 6 of 7</h3>
+        <ul>
+            <li>
+                <p>16. I tended to over-react to situations.</p>
+                <label><input type="radio" name="question16" value="0"> Not at all</label>
+                <label><input type="radio" name="question16" value="1"> A little</label>
+                <label><input type="radio" name="question16" value="2"> Moderately</label>
+                <label><input type="radio" name="question16" value="3"> Yes, definitely</label>
+            </li>
+            <li>
+                <p>17. I felt that I was using a lot of nervous energy.</p>
+                <label><input type="radio" name="question17" value="0"> Not at all</label>
+                <label><input type="radio" name="question17" value="1"> A little</label>
+                <label><input type="radio" name="question17" value="2"> Moderately</label>
+                <label><input type="radio" name="question17" value="3"> Yes, definitely</label>
+            </li>
+            <li>
+                <p>18. I found myself getting agitated.</p>
+                <label><input type="radio" name="question18" value="0"> Not at all</label>
+                <label><input type="radio" name="question18" value="1"> A little</label>
+                <label><input type="radio" name="question18" value="2"> Moderately</label>
+                <label><input type="radio" name="question18" value="3"> Yes, definitely</label>
+            </li>
+        </ul>
+        <br>
+        <button onclick="calculateScoresAndNavigateToResult()">Next</button>
+    </div>
+
+    <script>
+        function calculateScoresAndNavigateToResult() {
+            // Collect and store responses for this page
+            const question16Response = parseInt(document.querySelector('input[name="question16"]:checked').value);
+            const question17Response = parseInt(document.querySelector('input[name="question17"]:checked').value);
+            const question18Response = parseInt(document.querySelector('input[name="question18"]:checked').value);
+
+            // Retrieve scores from the previous pages
+            const stressScore = parseInt(localStorage.getItem('stressScore'));
+
+            // Update scores with responses from this page
+            const updatedStressScore = stressScore + question16Response + question17Response + question18Response;
+
+            // Store the updated scores in local storage
+            localStorage.setItem('stressScore', updatedStressScore);
+
+            // Navigate to the result page
+            window.location.href = 'questions7.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="resultstyle.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Mental Health Assessment - Result</title>
+</head>
+<body>
+ 
+<h2> Mental Health Assessment (DASS-21) - Result</h2>
+<div class="result-container">
+    <h3>Result</h3>
+    <p>Your mental health assessment results are displayed below.</p>
+    <div class="donut-chart-container">
+        <canvas id="depressionDonutChart" width="100" height="100"></canvas>
+        <canvas id="anxietyDonutChart" width="100" height="100"></canvas>
+        <canvas id="stressDonutChart" width="100" height="100"></canvas>
+    </div>
+    <div class="interpretation-container">
+        <h3>Interpretations and Recommendations</h3>
+        <p>Total DASS-21 Score: <span id="totalScore"></span></p>
+        <div id="depressionInterpretation">
+            <h4>Depression:</h4>
+            <p id="depressionInterpretationText"></p>
+        </div>
+        <div id="anxietyInterpretation">
+            <h4>Anxiety:</h4>
+            <p id="anxietyInterpretationText"></p>
+        </div>
+        <div id="stressInterpretation">
+            <h4>Stress:</h4>
+            <p id="stressInterpretationText"></p>
+        </div>
+        <p id="bookDoctor" style="display: none;"><a href="../makeappointment.php" target="_blank">Book a Doctor</a></p>
+    </div>
+</div>
+<div class="modal" id="customAlert">
+    <h2>Severe Condition Alert</h2>
+    <p id="severeConditionMessage"></p>
+    <button id="closeAlert">OK</button>
+</div>
+
+
+<script>
+    // Retrieve scores passed from the previous pages
+    const depressionScore = parseInt(localStorage.getItem('depressionScore'));
+    const anxietyScore = parseInt(localStorage.getItem('anxietyScore'));
+    const stressScore = parseInt(localStorage.getItem('stressScore'));
+
+    // Calculate the total score
+    const totalScore = depressionScore + anxietyScore + stressScore;
+
+    // Create donut charts with individual color grading
+    createDonutChart('depressionDonutChart', 'Depression', depressionScore, getColorForDepression);
+    createDonutChart('anxietyDonutChart', 'Anxiety', anxietyScore, getColorForAnxiety);
+    createDonutChart('stressDonutChart', 'Stress', stressScore, getColorForStress);
+
+    // Function to create a donut chart with individual color grading
+    function createDonutChart(canvasId, label, score, getColorFunction) {
+        const canvas = document.getElementById(canvasId);
+        const ctx = canvas.getContext('2d');
+        const severityColor = getColorFunction(score);
+        const data = {
+            labels: [`${label}`, ''],
+            datasets: [{
+                data: [score, score - totalScore],
+                backgroundColor: [severityColor, 'lightgray'],
+            }],
+        };
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: data,
+            options: {
+                cutout: '80%',
+                legend: { display: false },
+            },
+        });
+    }
+
+    // Function to get color based on the depression score
+    function getColorForDepression(depressionScore) {
+        if (depressionScore <= 9) {
+            return 'green';
+        } else if (depressionScore <= 13) {
+            return 'yellow';
+        } else if (depressionScore <= 20) {
+            return 'orange';
+        } else {
+            return 'red';
+        }
+    }
+
+    // Function to get color based on the anxiety score
+    function getColorForAnxiety(anxietyScore) {
+        if (anxietyScore <= 7) {
+            return 'green';
+        } else if (anxietyScore <= 9) {
+            return 'yellow';
+        } else if (anxietyScore <= 14) {
+            return 'orange';
+        } else {
+            return 'red';
+        }
+    }
+
+    // Function to get color based on the stress score
+    function getColorForStress(stressScore) {
+        if (stressScore <= 14) {
+            return 'green';
+        } else if (stressScore <= 18) {
+            return 'yellow';
+        } else if (stressScore <= 25) {
+            return 'orange';
+        } else {
+            return 'red';
+        }
+    }
+
+// Interpretation and recommendation for depression score
+if (depressionScore == 0) {
+    document.getElementById('depressionInterpretationText').textContent = "Interpretation: You are not experiencing depression.";
+} else if (depressionScore <= 9) {
+    document.getElementById('depressionInterpretationText').textContent = "Interpretation: You may be experiencing minimal depression.";
+} else if (depressionScore <= 13) {
+    document.getElementById('depressionInterpretationText').textContent = "Interpretation: You may be experiencing mild depression.";
+} else if (depressionScore <= 20) {
+    document.getElementById('depressionInterpretationText').textContent = "Interpretation: You are experiencing moderate depression.";
+} else {
+    document.getElementById('depressionInterpretationText').textContent = "Interpretation: You are experiencing severe depression.";
+    document.getElementById('severeConditionMessage').textContent = "Recommendations: Seek immediate professional help and consult a mental health specialist.";
+    document.getElementById('bookDoctor').style.display = "block";
+    showAlertForSevereCondition('Depression');
+}
+// Interpretation and recommendation for anxiety score
+if (anxietyScore == 0) {
+    document.getElementById('anxietyInterpretationText').textContent = "Interpretation: You are not experiencing anxiety.";
+} else if (anxietyScore <= 7) {
+    document.getElementById('anxietyInterpretationText').textContent = "Interpretation: You may be experiencing minimal anxiety.";
+} else if (anxietyScore <= 9) {
+    document.getElementById('anxietyInterpretationText').textContent = "Interpretation: You may be experiencing mild anxiety.";
+} else if (anxietyScore <= 14) {
+    document.getElementById('anxietyInterpretationText').textContent = "Interpretation: You are experiencing moderate anxiety.";
+} else {
+    document.getElementById('anxietyInterpretationText').textContent = "Interpretation: You are experiencing severe anxiety.";
+    document.getElementById('severeConditionMessage').textContent = "Recommendations: Seek immediate professional help and consult a mental health specialist.";
+    document.getElementById('bookDoctor').style.display = "block";
+    showAlertForSevereCondition('Anxiety');
+}
+
+// Interpretation and recommendation for stress score
+if (stressScore == 0) {
+    document.getElementById('stressInterpretationText').textContent = "Interpretation: You are not experiencing stress.";
+} else if (stressScore <= 14) {
+    document.getElementById('stressInterpretationText').textContent = "Interpretation: You may be experiencing minimal stress.";
+} else if (stressScore <= 18) {
+    document.getElementById('stressInterpretationText').textContent = "Interpretation: You may be experiencing mild stress.";
+} else if (stressScore <= 25) {
+    document.getElementById('stressInterpretationText').textContent = "Interpretation: You are experiencing moderate stress.";
+} else {
+    document.getElementById('stressInterpretationText').textContent = "Interpretation: You are experiencing severe stress.";
+    document.getElementById('severeConditionMessage').textContent = "Recommendations: Seek immediate professional help and consult a mental health specialist.";
+    document.getElementById('bookDoctor').style.display = "block";
+    showAlertForSevereCondition('Stress');
+}
+
+function showAlertForSevereCondition(symptom) {
+        const customAlert = document.getElementById('customAlert');
+        const severeConditionMessage = document.getElementById('severeConditionMessage');
+        const closeAlertButton = document.getElementById('closeAlert');
+
+        severeConditionMessage.textContent = 'Severe ' + symptom + ' condition detected. Please seek immediate professional help and consult a mental health specialist.';
+        customAlert.style.display = 'block';
+
+        closeAlertButton.addEventListener('click', () => {
+            customAlert.style.display = 'none';
+            window.location.href = '../makeappointment.php'; 
+        });
+    }
+
+</script>
+</body>
+</html>
+

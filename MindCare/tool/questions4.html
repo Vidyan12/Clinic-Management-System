@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Mental Health Assessment - Page 4</title>
+</head>
+<body>
+ 
+    <h2> Mental Health Assessment (DASS-21)</h2>
+    <div class="question-container">
+        <h3>Page 4 of 7</h3>
+        <ul>
+            <li>
+                <p>10. I experienced trembling (e.g. in the hands).</p>
+                <label><input type="radio" name="question10" value="0"> Not at all</label>
+                <label><input type="radio" name="question10" value="1"> A little</label>
+                <label><input type="radio" name="question10" value="2"> Moderately</label>
+                <label><input type="radio" name="question10" value="3"> Yes, definitely</label>
+            </li>
+            <li>
+                <p>11. I was worried about situations in which I might panic and make a fool of myself</p>
+                <label><input type="radio" name="question11" value="0"> Not at all</label>
+                <label><input type="radio" name="question11" value="1"> A little</label>
+                <label><input type="radio" name="question11" value="2"> Moderately</label>
+                <label><input type="radio" name="question11" value="3"> Yes, definitely</label>
+            </li>
+            <li>
+                <p>12. I felt I was close to panic.</p>
+                <label><input type="radio" name="question12" value="0"> Not at all</label>
+                <label><input type="radio" name="question12" value="1"> A little</label>
+                <label><input type="radio" name="question12" value="2"> Moderately</label>
+                <label><input type="radio" name="question12" value="3"> Yes, definitely</label>
+            </li>
+        </ul>
+        <br>
+        <button onclick="nextPage()">Next</button>
+    </div>
+
+    <script>
+        function nextPage() {
+            // Collect and store responses for this page
+            const question10Response = parseInt(document.querySelector('input[name="question10"]:checked').value);
+            const question11Response = parseInt(document.querySelector('input[name="question11"]:checked').value);
+            const question12Response = parseInt(document.querySelector('input[name="question12"]:checked').value);
+
+            // Retrieve scores from the previous page
+            const depressionScore = parseInt(localStorage.getItem('depressionScore'));
+            const anxietyScore = parseInt(localStorage.getItem('anxietyScore'));
+            const stressScore = 0; // Initialize as 0 for this page
+
+            // Update scores with responses from this page
+            const updatedDepressionScore = depressionScore;
+            const updatedAnxietyScore = anxietyScore + question10Response + question11Response + question12Response;
+
+            // Store the updated scores in local storage
+            localStorage.setItem('depressionScore', updatedDepressionScore);
+            localStorage.setItem('anxietyScore', updatedAnxietyScore);
+            localStorage.setItem('stressScore', stressScore);
+
+            // Navigate to the next page
+            window.location.href = 'questions5.html';
+        }
+    </script>
+</body>
+</html>
+
